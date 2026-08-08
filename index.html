@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sealcroft</title>
+<meta name="description" content="Sealcroft builds local-first, integrity-verified software. Undercroft is hardened AI memory in Rust.">
+<link rel="canonical" href="https://sealcroft.com/">
+<meta name="theme-color" content="#04080a">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sealcroft">
+<meta property="og:url" content="https://sealcroft.com/">
+<meta property="og:title" content="Sealcroft">
+<meta property="og:description" content="Local-first, integrity-verified software. Undercroft is hardened AI memory in Rust.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304080a'/%3E%3Cpath d='M6 27V15a10 10 0 0 1 20 0v12' fill='none' stroke='%2335e0c2' stroke-width='3'/%3E%3Cpath d='M16 27V16' stroke='%23c9a961' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#04080a; --ink:#e7eef0; --dim:#8fa3a8; --line:#16262a;
+    --teal:#35e0c2; --gold:#c9a961;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--serif); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+  .wrap{width:100%; max-width:52rem; margin:0 auto; padding:0 1.5rem}
+  header{padding:5.5rem 0 3rem}
+  .eyebrow{
+    font-family:var(--mono); font-size:.7rem; letter-spacing:.42em;
+    text-transform:uppercase; color:var(--gold); margin:0 0 1.4rem
+  }
+  h1{font-size:clamp(2.6rem,9vw,4.4rem); line-height:1; margin:0 0 1.2rem; font-weight:400}
+  .lede{font-size:1.15rem; color:var(--dim); max-width:34rem; margin:0}
+  main{flex:1; padding-bottom:4rem}
+  h2{
+    font-family:var(--mono); font-size:.7rem; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--dim); font-weight:500;
+    border-top:1px solid var(--line); padding-top:1.4rem; margin:3rem 0 1.6rem
+  }
+  .card{
+    display:block; text-decoration:none; color:inherit;
+    border:1px solid var(--line); border-radius:3px;
+    padding:1.5rem 1.6rem; margin-bottom:1rem;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  a.card:hover{border-color:var(--teal); transform:translateY(-1px)}
+  .card h3{margin:0 0 .45rem; font-size:1.45rem; font-weight:400}
+  .card h3 .arrow{color:var(--teal); font-family:var(--mono); font-size:.9rem; margin-left:.5rem}
+  .card p{margin:0; color:var(--dim); font-size:.97rem}
+  .card .tags{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.12em;
+    color:var(--gold); text-transform:uppercase; margin-top:.9rem
+  }
+  .card.soon{opacity:.5}
+  .card.soon h3 .arrow{color:var(--dim)}
+  footer{
+    border-top:1px solid var(--line); padding:1.6rem 0 2.4rem;
+    font-family:var(--mono); font-size:.72rem; color:var(--dim);
+    display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center
+  }
+  footer a{color:var(--dim)}
+  .glyph{color:var(--gold); font-size:1rem}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <p class="eyebrow">Sealcroft</p>
+  <h1>The sealed enclosure.</h1>
+  <p class="lede">Local-first software that can prove what it is holding — built to be
+    verified rather than trusted, and to keep working with nothing switched on.</p>
+</header>
+
+<main class="wrap">
+  <h2>Projects</h2>
+
+  <a class="card" href="/undercroft/">
+    <h3>Undercroft <span class="arrow">→</span></h3>
+    <p>Hardened AI memory in Rust. Verbatim recall from encrypted vaults —
+       XChaCha20-Poly1305 at rest, an HMAC-SHA256 tag on every record, a
+       tamper-evident audit chain, and a knowledge graph. Nothing leaves your
+       machine by default.</p>
+    <p class="tags">Rust · BUSL-1.1 · MCP server · v1.0.0</p>
+  </a>
+
+  <div class="card soon">
+    <h3>Security posture <span class="arrow">soon</span></h3>
+    <p>Not yet published.</p>
+  </div>
+
+  <div class="card soon">
+    <h3>AI harness <span class="arrow">soon</span></h3>
+    <p>Not yet published.</p>
+  </div>
+</main>
+
+<footer class="wrap">
+  <span class="glyph">&#8745;</span>
+  <span>Sealcroft</span>
+  <span><a href="https://github.com/sealcroft">github.com/sealcroft</a></span>
+</footer>
+
+</body>
+</html>
