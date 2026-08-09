@@ -3,108 +3,360 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sealcroft</title>
-<meta name="description" content="Sealcroft builds local-first, integrity-verified software. Undercroft is hardened AI memory in Rust.">
+<title>Sealcroft — verifiable infrastructure for AI systems</title>
+<meta name="description" content="Sealcroft builds the layer underneath AI agents — memory, security, evaluation — designed so every claim it makes can be checked. Local-first, no telemetry, no API keys.">
 <link rel="canonical" href="https://sealcroft.com/">
 <meta name="theme-color" content="#04080a">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sealcroft">
 <meta property="og:url" content="https://sealcroft.com/">
-<meta property="og:title" content="Sealcroft">
-<meta property="og:description" content="Local-first, integrity-verified software. Undercroft is hardened AI memory in Rust.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="Sealcroft — verifiable infrastructure for AI systems">
+<meta property="og:description" content="The layer underneath your agents: memory, security, evaluation. Built to be verified, not trusted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sealcroft — verifiable infrastructure for AI systems">
+<meta name="twitter:description" content="The layer underneath your agents: memory, security, evaluation. Built to be verified, not trusted.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304080a'/%3E%3Cpath d='M6 27V15a10 10 0 0 1 20 0v12' fill='none' stroke='%2335e0c2' stroke-width='3'/%3E%3Cpath d='M16 27V16' stroke='%23c9a961' stroke-width='2'/%3E%3C/svg%3E">
 <style>
-  :root{
-    --bg:#04080a; --ink:#e7eef0; --dim:#8fa3a8; --line:#16262a;
-    --teal:#35e0c2; --gold:#c9a961;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:var(--serif); line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-    display:flex; flex-direction:column; min-height:100vh;
-  }
-  .wrap{width:100%; max-width:52rem; margin:0 auto; padding:0 1.5rem}
-  header{padding:5.5rem 0 3rem}
-  .eyebrow{
-    font-family:var(--mono); font-size:.7rem; letter-spacing:.42em;
-    text-transform:uppercase; color:var(--gold); margin:0 0 1.4rem
-  }
-  h1{font-size:clamp(2.6rem,9vw,4.4rem); line-height:1; margin:0 0 1.2rem; font-weight:400}
-  .lede{font-size:1.15rem; color:var(--dim); max-width:34rem; margin:0}
-  main{flex:1; padding-bottom:4rem}
-  h2{
-    font-family:var(--mono); font-size:.7rem; letter-spacing:.32em;
-    text-transform:uppercase; color:var(--dim); font-weight:500;
-    border-top:1px solid var(--line); padding-top:1.4rem; margin:3rem 0 1.6rem
-  }
-  .card{
-    display:block; text-decoration:none; color:inherit;
-    border:1px solid var(--line); border-radius:3px;
-    padding:1.5rem 1.6rem; margin-bottom:1rem;
-    transition:border-color .18s ease, transform .18s ease;
-  }
-  a.card:hover{border-color:var(--teal); transform:translateY(-1px)}
-  .card h3{margin:0 0 .45rem; font-size:1.45rem; font-weight:400}
-  .card h3 .arrow{color:var(--teal); font-family:var(--mono); font-size:.9rem; margin-left:.5rem}
-  .card p{margin:0; color:var(--dim); font-size:.97rem}
-  .card .tags{
-    font-family:var(--mono); font-size:.68rem; letter-spacing:.12em;
-    color:var(--gold); text-transform:uppercase; margin-top:.9rem
-  }
-  .card.soon{opacity:.5}
-  .card.soon h3 .arrow{color:var(--dim)}
-  footer{
-    border-top:1px solid var(--line); padding:1.6rem 0 2.4rem;
-    font-family:var(--mono); font-size:.72rem; color:var(--dim);
-    display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center
-  }
-  footer a{color:var(--dim)}
-  .glyph{color:var(--gold); font-size:1rem}
+:root{
+  --bg:#04080a; --bg-2:#070d10; --surface:#0a1216; --surface-2:#0d171c;
+  --ink:#e9f1f2; --dim:#8ea6ab; --faint:#5d7378;
+  --line:#16262b; --line-2:#1e343a;
+  --teal:#35e0c2; --teal-dim:#0f8f7a; --green:#57ff9a; --gold:#c9a961;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --r:4px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--sans);
+  font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{width:100%;max-width:68rem;margin:0 auto;padding:0 1.75rem}
+a{color:inherit}
+
+/* ── ambient ─────────────────────────────────────────── */
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0}
+.glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(90px)}
+.glow::before{
+  width:52vw;height:52vw;top:-16vw;left:-10vw;
+  background:radial-gradient(circle,rgba(53,224,194,.13),transparent 68%);
+  animation:drift 26s ease-in-out infinite alternate;
+}
+.glow::after{
+  width:40vw;height:40vw;top:22vw;right:-12vw;
+  background:radial-gradient(circle,rgba(201,169,97,.09),transparent 68%);
+  animation:drift 34s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift{to{transform:translate3d(4vw,3vw,0) scale(1.12)}}
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 30%,transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 30%,transparent 78%);
+}
+main,header,footer{position:relative;z-index:1}
+
+/* ── nav ─────────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:20;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(4,8,10,.72);border-bottom:1px solid var(--line);
+}
+nav .wrap{display:flex;align-items:center;gap:1.6rem;height:60px}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:600;letter-spacing:-.01em;text-decoration:none}
+.brand svg{width:19px;height:19px;flex:none}
+.nav-sp{flex:1}
+nav a.nl{
+  font-size:.86rem;color:var(--dim);text-decoration:none;transition:color .16s;
+}
+nav a.nl:hover{color:var(--teal)}
+@media(max-width:620px){nav a.nl.opt{display:none}}
+
+/* ── hero ────────────────────────────────────────────── */
+header{padding:6.5rem 0 3rem}
+.kicker{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--teal);background:rgba(53,224,194,.07);
+  border:1px solid rgba(53,224,194,.22);border-radius:100px;
+  padding:.36rem .85rem;margin-bottom:1.9rem;
+}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 0 rgba(87,255,154,.6);animation:pulse 2.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(87,255,154,0)}100%{box-shadow:0 0 0 0 rgba(87,255,154,0)}}
+h1{
+  font-size:clamp(2.6rem,6.6vw,4.6rem);line-height:1.03;font-weight:600;
+  letter-spacing:-.033em;margin-bottom:1.5rem;max-width:20ch;
+}
+h1 .accent{
+  background:linear-gradient(96deg,var(--teal),var(--green) 55%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lede{font-size:1.16rem;color:var(--dim);max-width:44rem;margin-bottom:2.4rem}
+.lede b{color:var(--ink);font-weight:500}
+.cta{display:flex;gap:.85rem;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.72rem 1.35rem;border-radius:var(--r);text-decoration:none;
+  font-size:.93rem;font-weight:500;transition:all .18s ease;border:1px solid transparent;
+}
+.btn-p{background:var(--teal);color:#02100d;box-shadow:0 0 0 0 rgba(53,224,194,.4)}
+.btn-p:hover{background:var(--green);transform:translateY(-1px);box-shadow:0 8px 26px -8px rgba(53,224,194,.55)}
+.btn-s{border-color:var(--line-2);color:var(--ink)}
+.btn-s:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── proof bar ───────────────────────────────────────── */
+.proof{
+  margin-top:3.6rem;border:1px solid var(--line);border-radius:var(--r);
+  background:linear-gradient(180deg,var(--surface),rgba(10,18,22,.35));
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.proof>div{padding:1.25rem 1.35rem;border-right:1px solid var(--line)}
+.proof>div:last-child{border-right:0}
+.proof .n{font-family:var(--mono);font-size:1.45rem;font-weight:600;color:var(--teal);letter-spacing:-.02em}
+.proof .n.gold{color:var(--gold)}
+.proof .l{font-size:.74rem;color:var(--faint);text-transform:uppercase;letter-spacing:.09em;margin-top:.2rem}
+@media(max-width:760px){
+  .proof{grid-template-columns:repeat(2,1fr)}
+  .proof>div{border-bottom:1px solid var(--line)}
+  .proof>div:nth-child(2n){border-right:0}
+  .proof>div:nth-child(n+3){border-bottom:0}
+}
+@media(max-width:480px){
+  .cta{flex-direction:column;align-items:stretch}
+  .btn{justify-content:center}
+  header{padding:4rem 0 3rem}
+  section{padding:3.25rem 0}
+}
+
+/* ── sections ────────────────────────────────────────── */
+section{padding:5.5rem 0}
+.eyebrow{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.85rem;
+}
+h2{font-size:clamp(1.75rem,3.4vw,2.4rem);font-weight:600;letter-spacing:-.024em;margin-bottom:.75rem}
+.sub{color:var(--dim);max-width:42rem;margin-bottom:2.6rem}
+
+/* ── product cards ───────────────────────────────────── */
+.cards{display:grid;gap:1.1rem}
+.card{
+  position:relative;display:block;text-decoration:none;color:inherit;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--r);
+  background:linear-gradient(155deg,var(--surface-2),var(--surface) 55%);
+  padding:1.9rem;transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+a.card:hover{border-color:var(--teal-dim);transform:translateY(-2px);
+  box-shadow:0 18px 44px -22px rgba(53,224,194,.35)}
+a.card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(700px circle at var(--mx,50%) var(--my,0%),rgba(53,224,194,.07),transparent 42%);
+}
+a.card:hover::after{opacity:1}
+.card-top{display:flex;align-items:flex-start;gap:1rem;margin-bottom:.9rem;flex-wrap:wrap}
+.card h3{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:.6rem}
+.card h3 .arr{color:var(--teal);font-family:var(--mono);font-size:1rem;transition:transform .2s}
+a.card:hover h3 .arr{transform:translateX(4px)}
+.chip{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.26rem .6rem;border-radius:100px;border:1px solid;white-space:nowrap;
+}
+.chip.live{color:var(--green);border-color:rgba(87,255,154,.3);background:rgba(87,255,154,.07)}
+.chip.dev{color:var(--gold);border-color:rgba(201,169,97,.3);background:rgba(201,169,97,.06)}
+.card p{color:var(--dim);max-width:52rem}
+.card .tags{
+  margin-top:1.2rem;display:flex;gap:.5rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--faint);
+}
+.card .tags span{border:1px solid var(--line-2);border-radius:3px;padding:.22rem .55rem}
+.card.soon{opacity:.72}
+.card.soon h3 .arr{color:var(--faint)}
+
+/* ── principles ──────────────────────────────────────── */
+.tri{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.pr{border-top:2px solid var(--teal-dim);padding-top:1.1rem}
+.pr:nth-child(2){border-color:var(--gold)}
+.pr:nth-child(3){border-color:var(--teal)}
+.pr h4{font-size:1.05rem;font-weight:600;margin-bottom:.45rem}
+.pr p{color:var(--dim);font-size:.93rem}
+
+/* ── verify strip ────────────────────────────────────── */
+.verify{
+  border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+  padding:1.5rem 1.7rem;display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;
+}
+.verify .ic{color:var(--green);font-size:1.1rem;font-family:var(--mono)}
+.verify code{
+  font-family:var(--mono);font-size:.82rem;color:var(--teal);
+  background:rgba(53,224,194,.07);border:1px solid var(--line-2);
+  border-radius:3px;padding:.3rem .6rem;overflow-wrap:anywhere;
+}
+.verify .t{color:var(--dim);font-size:.92rem;flex:1;min-width:14rem}
+
+/* ── footer ──────────────────────────────────────────── */
+footer{border-top:1px solid var(--line);padding:2.4rem 0 3rem;margin-top:2rem}
+footer .wrap{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;
+  font-family:var(--mono);font-size:.74rem;color:var(--faint)}
+footer a{color:var(--faint);text-decoration:none;transition:color .16s}
+footer a:hover{color:var(--teal)}
+footer .sp{flex:1}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
+<div class="glow"></div><div class="grid-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 27V15a10 10 0 0 1 20 0v12" fill="none" stroke="#35e0c2" stroke-width="3"/><path d="M16 27V16" stroke="#c9a961" stroke-width="2"/></svg>
+      Sealcroft
+    </a>
+    <span class="nav-sp"></span>
+    <a class="nl" href="#projects">Projects</a>
+    <a class="nl opt" href="#principles">Principles</a>
+    <a class="nl" href="https://github.com/sealcroft">GitHub</a>
+  </div>
+</nav>
+
 <header class="wrap">
-  <p class="eyebrow">Sealcroft</p>
-  <h1>The sealed enclosure.</h1>
-  <p class="lede">Local-first software that can prove what it is holding — built to be
-    verified rather than trusted, and to keep working with nothing switched on.</p>
+  <div class="kicker"><span class="pulse"></span> Undercroft 1.0 is out</div>
+  <h1>Infrastructure for AI that <span class="accent">proves itself</span>.</h1>
+  <p class="lede">Sealcroft builds the layer underneath your agents — memory, security,
+    evaluation — designed so every claim it makes can be checked rather than believed.
+    <b>Local-first by default.</b> No telemetry, no API keys, no data leaving your machine.</p>
+  <div class="cta">
+    <a class="btn btn-p" href="/undercroft/">Explore Undercroft <span aria-hidden="true">→</span></a>
+    <a class="btn btn-s" href="https://github.com/sealcroft">View source</a>
+  </div>
+
+  <div class="proof">
+    <div><div class="n">99.4<span style="font-size:.9rem">%</span></div><div class="l">LongMemEval R@5</div></div>
+    <div><div class="n">34</div><div class="l">MCP tools</div></div>
+    <div><div class="n">656</div><div class="l">tests passing</div></div>
+    <div><div class="n gold">0</div><div class="l">bytes phoned home</div></div>
+  </div>
 </header>
 
-<main class="wrap">
-  <h2>Projects</h2>
+<main>
+<section class="wrap" id="projects">
+  <p class="eyebrow">Projects</p>
+  <h2>One layer at a time.</h2>
+  <p class="sub">Each project is independent, source-available, and useful on its own.
+    Together they are the substrate an autonomous system needs before it can be trusted with anything real.</p>
 
-  <a class="card" href="/undercroft/">
-    <h3>Undercroft <span class="arrow">→</span></h3>
-    <p>Hardened AI memory in Rust. Verbatim recall from encrypted vaults —
-       XChaCha20-Poly1305 at rest, an HMAC-SHA256 tag on every record, a
-       tamper-evident audit chain, and a knowledge graph. Nothing leaves your
-       machine by default.</p>
-    <p class="tags">Rust · BUSL-1.1 · MCP server · v1.0.0</p>
-  </a>
+  <div class="cards">
+    <a class="card" href="/undercroft/">
+      <div class="card-top">
+        <h3>Undercroft <span class="arr">→</span></h3>
+        <span class="chip live">Shipping · v1.0.0</span>
+      </div>
+      <p>Hardened AI memory in Rust. Your agent's words kept <b>verbatim</b> in encrypted
+         vaults — XChaCha20-Poly1305 at rest, an HMAC-SHA256 tag on every record, and a
+         tamper-evident audit chain that catches an offline edit at unlock. Hybrid
+         semantic and lexical retrieval, a temporal knowledge graph, screened writes and
+         receipted deletion. Runs entirely on your machine with no model to download.</p>
+      <div class="tags">
+        <span>Rust</span><span>MCP server</span><span>REST /v1</span>
+        <span>SQLite + 5 vector backends</span><span>Post-quantum export</span><span>BUSL-1.1</span>
+      </div>
+    </a>
 
-  <div class="card soon">
-    <h3>Security posture <span class="arrow">soon</span></h3>
-    <p>Not yet published.</p>
+    <div class="card soon">
+      <div class="card-top">
+        <h3>Security posture <span class="arr">·</span></h3>
+        <span class="chip dev">In development</span>
+      </div>
+      <p>Continuous posture assessment for systems that have to answer for themselves —
+         built on the same principle as the rest: findings you can reproduce, not a score
+         you have to take on faith.</p>
+    </div>
+
+    <div class="card soon">
+      <div class="card-top">
+        <h3>AI harness <span class="arr">·</span></h3>
+        <span class="chip dev">In development</span>
+      </div>
+      <p>An evaluation and orchestration harness for agentic work — measured on real
+         corpora, reported as measured, favourable or not.</p>
+    </div>
   </div>
+</section>
 
-  <div class="card soon">
-    <h3>AI harness <span class="arrow">soon</span></h3>
-    <p>Not yet published.</p>
+<section class="wrap" id="principles">
+  <p class="eyebrow">How we build</p>
+  <h2>Verifiable beats trustworthy.</h2>
+  <p class="sub">Trust is a claim about intent. Verification is a property of the artifact.
+    We build for the second, because it is the only one that survives being wrong.</p>
+
+  <div class="tri">
+    <div class="pr">
+      <h4>Nothing leaves by default</h4>
+      <p>No telemetry, no phone-home, no API key required for core function. Outbound
+         paths exist, but every one is an explicit opt-in — never a silent fallback.</p>
+    </div>
+    <div class="pr">
+      <h4>Integrity you can check</h4>
+      <p>Records carry their own tags. Deletions hand back receipts. Audit chains are
+         replayable. If something was altered on disk, the software says so instead of
+         serving it.</p>
+    </div>
+    <div class="pr">
+      <h4>Honest about limits</h4>
+      <p>Threat models state what they do <em>not</em> cover. Benchmarks are published as
+         measured. A security feature that overstates itself is a vulnerability with
+         good marketing.</p>
+    </div>
   </div>
+</section>
+
+<section class="wrap">
+  <div class="verify">
+    <span class="ic">✓</span>
+    <span class="t">Every record carries an HMAC-SHA256 tag, verified on read before a
+      single byte is returned.</span>
+    <code id="tag">hmac-sha256 · 9f3c1a…</code>
+  </div>
+</section>
 </main>
 
-<footer class="wrap">
-  <span class="glyph">&#8745;</span>
-  <span>Sealcroft</span>
-  <span><a href="https://github.com/sealcroft">github.com/sealcroft</a></span>
+<footer>
+  <div class="wrap">
+    <span style="color:var(--gold);font-size:.95rem">&#8745;</span>
+    <span>Sealcroft</span>
+    <span class="sp"></span>
+    <a href="/undercroft/">Undercroft</a>
+    <a href="https://github.com/sealcroft">GitHub</a>
+    <span>Source-available · BUSL-1.1</span>
+  </div>
 </footer>
 
+<script>
+/* pointer-follow sheen on product cards */
+document.querySelectorAll('a.card').forEach(function(c){
+  c.addEventListener('pointermove',function(e){
+    var r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    c.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+});
+/* the tag ticks over — the point being that it is checked, continuously */
+(function(){
+  var el=document.getElementById('tag');
+  if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var hex='0123456789abcdef';
+  setInterval(function(){
+    var s='';for(var i=0;i<6;i++)s+=hex[(Math.random()*16)|0];
+    el.textContent='hmac-sha256 · '+s+'…';
+  },1800);
+})();
+</script>
 </body>
 </html>
