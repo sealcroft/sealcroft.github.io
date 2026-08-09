@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071016"/>
+      <stop offset="1" stop-color="#03080a"/>
+    </linearGradient>
+    <linearGradient id="arch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#57ff9a"/>
+      <stop offset="1" stop-color="#35e0c2"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="34%" r="52%">
+      <stop offset="0" stop-color="#35e0c2" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#35e0c2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="0" fill="url(#bg)"/>
+  <circle cx="256" cy="200" r="190" fill="url(#halo)"/>
+
+  <!-- springing line: the floor the vault stands on -->
+  <line x1="96" y1="372" x2="416" y2="372" stroke="#1e343a" stroke-width="6"/>
+
+  <!-- the arch: a barrel vault seen in section -->
+  <path d="M118 372 V244 a138 138 0 0 1 276 0 V372"
+        fill="none" stroke="url(#arch)" stroke-width="30" stroke-linecap="square"/>
+
+  <!-- keystone -->
+  <rect x="236" y="86" width="40" height="42" rx="2" fill="#c9a961"/>
+
+  <!-- the seal: what the chamber is closed with -->
+  <circle cx="256" cy="300" r="34" fill="none" stroke="#c9a961" stroke-width="12"/>
+  <circle cx="256" cy="300" r="9" fill="#c9a961"/>
+</svg>
